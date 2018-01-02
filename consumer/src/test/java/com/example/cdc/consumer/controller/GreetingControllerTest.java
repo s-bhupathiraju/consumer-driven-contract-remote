@@ -20,9 +20,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.example.cdc.consumer.AbstractTest;
 import com.example.cdc.consumer.dto.GreetingDTO;
 
-
-
-
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
 @AutoConfigureMockMvc
