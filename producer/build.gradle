@@ -47,7 +47,6 @@ apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.artifactory'
 
 group = 'com.example.cdc'
-version = '0.0.4-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
