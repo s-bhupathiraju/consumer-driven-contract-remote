@@ -1,0 +1,166 @@
+buildscript {
+        ext {
+                springBootVersion = '1.5.4.RELEASE'
+                jfrogBuildInfoPluginVersion = '4.4.12'
+        }
+
+        repositories {
+                mavenCentral()
+                mavenLocal()
+                maven { url "http://repo.spring.io/snapshot" }
+                maven { url "http://repo.spring.io/milestone" }
+                maven { url "http://repo.spring.io/release" }
+                maven {
+					url 'https://eis.jfrog.io/eis/plugins-release'
+					credentials {
+						username = project.artifactory_user
+						password = project.artifactory_password
+					}
+				}
+        }
+        dependencies {
+                classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+                classpath "org.springframework.cloud:spring-cloud-contract-gradle-plugin:${findProperty('verifierVersion') ?: verifierVersion}"
+                classpath "org.jfrog.buildinfo:build-info-extractor-gradle:${jfrogBuildInfoPluginVersion}"
+
+                // Use for pact support
+                classpath "org.springframework.cloud:spring-cloud-contract-spec-pact:${findProperty('verifierVersion') ?: verifierVersion}"
+                classpath 'au.com.dius:pact-jvm-model:2.4.18'
+        }
+}
+
+plugins {
+        // JFrog Artifactory plugins
+        id "com.jfrog.artifactory" version "4.4.0"
+        id "io.spring.dependency-management" version "0.6.1.RELEASE"
+}
+
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: "io.spring.dependency-management"
+apply plugin: 'spring-cloud-contract'
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.artifactory'
+
+group = 'com.example.cdc'
+version = '0.0.4-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+                mavenCentral()
+                mavenLocal()
+                maven { url "http://repo.spring.io/snapshot" }
+                maven { url "http://repo.spring.io/milestone" }
+                maven { url "http://repo.spring.io/release" }
+                maven {
+					url 'https://eis.jfrog.io/eis/libs-release-local'
+					credentials {
+					username = project.artifactory_user
+					password = project.artifactory_password
+					}
+				}
+}
+
+
+ext {
+        springCloudVersion = 'Edgware.BUILD-SNAPSHOT'
+}
+
+def isSnapshot = project.version.endsWith('SNAPSHOT')
+def repo = version.endsWith('SNAPSHOT') ? 'libs-snapshot-local' : 'libs-release-local'
+
+
+artifactory {
+    //The base Artifactory URL if not overridden by the publisher/resolver
+	contextUrl = project.artifactory_contextUrl
+
+	resolve {
+		repository {
+			repoKey = 'libs-release'
+			username = project.artifactory_user
+			password = project.artifactory_password
+		}
+	}
+
+	publish {
+		repository {
+			repoKey = repo
+			username = project.artifactory_user
+			password = project.artifactory_password
+			maven = true
+		}
+
+		defaults { publications ('mavenJava') }
+	}
+}
+dependencies {
+        compile('org.springframework.boot:spring-boot-starter-actuator')
+//      compile('org.springframework.cloud:spring-cloud-starter-stream-rabbit')
+        compile('org.springframework.boot:spring-boot-starter-web')
+        compile("org.springframework.boot:spring-boot-devtools")
+        compile("org.springframework.cloud:spring-cloud-contract-spec")
+
+        /* Use for pact support Start */
+        compile("org.springframework.cloud:spring-cloud-contract-spec-pact")
+        compile("au.com.dius:pact-jvm-model:2.4.18")
+        /* Use for pact support End */
+
+        testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile("org.springframework.cloud:spring-cloud-starter-contract-verifier")
+
+
+}
+
+dependencyManagement {
+        imports {
+                mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        }
+}
+
+task sourcesJar ( type: Jar, dependsOn: classes ) {
+	classifier 'sources'
+	from sourceSets.main.allJava
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+	classifier = 'javadoc'
+	from javadoc.destinationDir
+}
+
+// usage: gradle artifactoryPublish
+// usage: gradle publishToMavenLocal
+// usage: gradle publish
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			from components.java
+			artifact sourcesJar
+			artifact javadocJar
+			artifact verifierStubsJar
+		}
+	}
+}
+
+
+contracts {
+        packageWithBaseClasses = 'com.example.cdc'
+}
+
+
+test {
+        testLogging {
+                exceptionFormat = 'full'
+        }
+}
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.5'
+}
+
+
+clean.doFirst {
+        delete 'target/'
+}

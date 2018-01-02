@@ -10,7 +10,8 @@
 
 
 // To declare projects as part of a multi-project build use the 'include' method
-//include 'consumer'
-//include 'producer'
+
+include 'producer'
+include 'consumer'
 
 rootProject.name = 'spring-cloud-contract-remote'

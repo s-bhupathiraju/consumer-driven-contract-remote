@@ -5,12 +5,19 @@
  * user guide available at https://docs.gradle.org/4.1/userguide/tutorial_java_projects.html
  */
 
+
+wrapper {
+   gradleVersion '3.5'
+}
+
 allprojects {
     repositories {
         // Use 'jcenter' for resolving your dependencies.
         // You can declare any Maven/Ivy/file repository here.
-        jcenter() 
+        jcenter()
     }
 }
 
-
+subprojects {
+    version = '0.0.1-SNAPSHOT'
+}
