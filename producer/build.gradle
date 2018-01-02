@@ -11,7 +11,7 @@ buildscript {
                 maven { url "http://repo.spring.io/milestone" }
                 maven { url "http://repo.spring.io/release" }
                 maven {
-					url 'https://eis.jfrog.io/eis/plugins-release'
+					url "${artifactory_contextUrl}/plugins-release"
 					credentials {
 						username = project.artifactory_user
 						password = project.artifactory_password
@@ -57,7 +57,7 @@ repositories {
                 maven { url "http://repo.spring.io/milestone" }
                 maven { url "http://repo.spring.io/release" }
                 maven {
-					url 'https://eis.jfrog.io/eis/libs-release-local'
+					url "${artifactory_contextUrl}/libs-release-local"
 					credentials {
 					username = project.artifactory_user
 					password = project.artifactory_password
