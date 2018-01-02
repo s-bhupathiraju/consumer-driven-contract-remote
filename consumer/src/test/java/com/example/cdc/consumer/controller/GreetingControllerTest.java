@@ -28,7 +28,7 @@ import com.example.cdc.consumer.dto.GreetingDTO;
 @AutoConfigureMockMvc
 @AutoConfigureJsonTesters
 @DirtiesContext
-@AutoConfigureStubRunner(workOffline = true, ids = "com.example.cdc:producer:+:stubs:8092")
+@AutoConfigureStubRunner(workOffline = false, ids = "com.example.cdc:producer:+:stubs:8092", repositoryRoot="http://73.159.7.215:8081/artifactory/libs-snapshot-local")
 public class GreetingControllerTest extends AbstractTest{
 
     @Autowired MockMvc mockMvc;
