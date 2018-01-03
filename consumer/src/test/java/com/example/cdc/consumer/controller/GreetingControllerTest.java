@@ -25,7 +25,7 @@ import com.example.cdc.consumer.dto.GreetingDTO;
 @AutoConfigureMockMvc
 @AutoConfigureJsonTesters
 @DirtiesContext
-@AutoConfigureStubRunner(workOffline = false, ids = "com.example.cdc:producer:+:stubs:8092", repositoryRoot="http://73.159.7.215:8081/artifactory/libs-snapshot-local")
+@AutoConfigureStubRunner(workOffline = false, ids = "com.example.cdc:producer:+:stubs:8092", repositoryRoot="https://eis.jfrog.io/eis/libs-snapshot-local")
 //@AutoConfigureStubRunner(workOffline = false, ids = "com.example.cdc:producer:+:stubs:8092", repositoryRoot="https://PROPRIETARY_REPO/libs-snapshot-local")
 public class GreetingControllerTest extends AbstractTest{
 
