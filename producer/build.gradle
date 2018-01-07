@@ -1,6 +1,3 @@
-
-
-
 apply plugin: 'java'
 apply plugin: 'groovy'
 
@@ -12,7 +9,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.artifactory'
 
 group = 'com.example.cdc'
-version = '0.0.8-SNAPSHOT'
+version = '0.0.10-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
