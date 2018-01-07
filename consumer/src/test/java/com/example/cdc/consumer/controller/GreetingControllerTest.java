@@ -35,9 +35,9 @@ public class GreetingControllerTest extends AbstractTest{
     public void should_print_a_formatted_message_when_there_is_a_prefix() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/greeting")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(json.write(new GreetingDTO("Greetings ", "John Doe")).getJson()))
+                .content(json.write(new GreetingDTO("Greetings ", "EBSCO")).getJson()))
                 .andExpect(status().isOk())
-                .andExpect(content().string("Greetings John Doe"));
+                .andExpect(content().string("Greetings EBSCO"));
     }
 
 }

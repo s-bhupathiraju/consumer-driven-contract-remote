@@ -22,7 +22,7 @@ then:
 		url '/formatgreeting'
 		body(
 			prefix: "Greetings ",
-			name: "John Doe"
+			name: "EBSCO"
 		)
 		headers {
 			contentType(applicationJson())
@@ -32,7 +32,7 @@ then:
 		status 200
 		body("""
 			{
-				"formattedGreeting": "Greetings John Doe"
+				"formattedGreeting": "Greetings EBSCO"
 			}
 			""")
 		headers {
