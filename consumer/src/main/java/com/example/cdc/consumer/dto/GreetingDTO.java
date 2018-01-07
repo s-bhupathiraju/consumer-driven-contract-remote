@@ -2,7 +2,7 @@ package com.example.cdc.consumer.dto;
 
 public class GreetingDTO {
 	private String name;
-	private String suffix;
+	private String prefix;
 
 	public GreetingDTO() {
 		super();
@@ -13,18 +13,18 @@ public class GreetingDTO {
 		this.name = name;
 	}
 
-	public GreetingDTO(String name, String suffix) {
+	public GreetingDTO(String prefix, String name) {
 		super();
+		this.prefix = prefix;
 		this.name = name;
-		this.suffix = suffix;
 	}
 
-	public String getSuffix() {
-		return suffix;
+	public String getPrefix() {
+		return prefix;
 	}
 
-	public void setSuffix(String suffix) {
-		this.suffix = suffix;
+	public void setPrefix(String prefix) {
+		this.prefix = prefix;
 	}
 
 	public String getName() {
@@ -36,3 +36,4 @@ public class GreetingDTO {
 	}
 
 }
+

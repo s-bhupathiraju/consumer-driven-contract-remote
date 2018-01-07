@@ -1,8 +1,7 @@
 package com.example.cdc.consumer.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import com.example.cdc.consumer.AbstractTest;
+import com.example.cdc.consumer.dto.GreetingDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +16,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.example.cdc.consumer.AbstractTest;
-import com.example.cdc.consumer.dto.GreetingDTO;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
@@ -36,9 +35,9 @@ public class GreetingControllerTest extends AbstractTest{
     public void should_print_a_formatted_message_when_there_is_a_prefix() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/greeting")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(json.write(new GreetingDTO("John Doe", ", How are you doing?")).getJson()))
+                .content(json.write(new GreetingDTO("Greetings ", "John Doe")).getJson()))
                 .andExpect(status().isOk())
-                .andExpect(content().string("John Doe, How are you doing?"));
+                .andExpect(content().string("Greetings John Doe"));
     }
 
 }
